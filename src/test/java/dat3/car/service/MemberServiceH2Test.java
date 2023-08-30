@@ -75,7 +75,23 @@ class MemberServiceH2Test {
 
     @Test
     void testEditMemberWithExistingUsername() {
-        //TODO
+        //Create a MemberRequest from an existing member we can edit
+        MemberRequest request = new MemberRequest(m1);
+        request.setFirstName("New First Name");
+        request.setLastName("New Last Name");
+
+        memberService.editMember(request, "user1");
+
+        memberRepository.flush();
+        MemberResponse response = memberService.findById("user1");
+
+        assertEquals("user1", response.getUsername());
+        assertEquals("New First Name", response.getFirstName());
+        assertEquals("New Last Name", response.getLastName());
+        assertEquals("email1", response.getEmail());
+        assertEquals("street1", response.getStreet());
+        assertEquals("city1", response.getCity());
+        assertEquals("zip1", response.getZip());
     }
 
     @Test

@@ -28,7 +28,7 @@ public class CarService {
         }
         Car newCar = CarRequest.getCarEntity(body);
         newCar = carRepository.save(newCar);
-        return new CarResponse(newCar, false);
+        return new CarResponse(newCar, true);
     }
     public ResponseEntity<Boolean> editCar(CarRequest body, int id){
         Car car = carRepository.findById(id).

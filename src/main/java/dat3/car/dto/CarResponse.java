@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarResponse {
-    private int id;
+    private Integer id;
     private String brand;
     private String model;
     private double pricePrDay;
