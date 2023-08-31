@@ -25,13 +25,13 @@ class CarServiceH2Test {
         c2 = carRepository.save(new Car("Ford", "Mustand", 500.5, 85));
         carService = new CarService(carRepository);
     }
-/*    @Test
+   @Test
     void testCarsGetId(){
         List<CarResponse> carResponses = carService.getCars(true);
         assertEquals(2, carResponses.size(),"Expects two cars");
         Integer testId = carResponses.get(0).getId();
-        assertEquals(1,testId);
-    }*/
+        assertEquals(c1.getId(),testId);
+    }
     @Test
     void testCarsGetNoId(){
         List<CarResponse> carResponses = carService.getCars(false);

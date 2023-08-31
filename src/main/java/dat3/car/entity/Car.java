@@ -9,7 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "car")
 public class Car extends AdminDetails{
@@ -31,4 +33,5 @@ public class Car extends AdminDetails{
         this.pricePrDay = pricePrDay;
         this.bestDiscount = bestDiscount;
     }
+
 }
