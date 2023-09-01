@@ -15,11 +15,13 @@ This is not an inheritance strategy in the same way as the others you can use, b
 that contains common fields and mappings, and it's super simple to implement
 OBSERVE --> The base class is not an entity by itself and is NEVER used directly in queries.
 */
-@Getter @Setter
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class AdminDetails {
     @CreationTimestamp
     protected LocalDateTime created;
     @UpdateTimestamp
     protected LocalDateTime edited;
+
 }

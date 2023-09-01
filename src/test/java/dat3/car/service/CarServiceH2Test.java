@@ -1,5 +1,6 @@
 package dat3.car.service;
 
+import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.entity.Car;
 import dat3.car.repository.CarRepository;
@@ -47,6 +48,18 @@ class CarServiceH2Test {
     }
     @Test
     void testDeleteCarById_CarIdDoesNotExist(){
-        assertThrows(ResponseStatusException.class, () -> carService.findCarById(3));
+        assertThrows(ResponseStatusException.class, () -> carService.deleteCarById(4));
+    }
+    @Test
+    void testFindCarById_carDoesNotExist(){
+        assertThrows(ResponseStatusException.class, () -> carService.findCarById(10));
+    }
+    @Test
+    void testEditCar(){
+        CarRequest request = new CarRequest(c1);
+        request.setBrand("Suzuki");
+        carService.editCar(request, request.getId());
+        carRepository.flush();
+        assertEquals(request.getBrand(),"Suzuki");
     }
 }

@@ -9,7 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "member")
 public class Member extends AdminDetails {
@@ -36,6 +38,5 @@ public class Member extends AdminDetails {
         this.city = city;
         this.zip = zip;
     }
-
 
 }

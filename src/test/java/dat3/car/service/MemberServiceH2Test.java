@@ -28,7 +28,7 @@ class MemberServiceH2Test {
     @BeforeEach
     void setUp() {
         m1 = memberRepository.save(new Member("user1", "pw1", "email1", "fn1", "ln1",  "street1", "city1", "zip1"));
-        m2 = memberRepository.save(new Member("user2", "pw2", "email1", "fn2", "ln2", "street2", "city2", "zip2"));
+        m2 = memberRepository.save(new Member("user2", "pw2", "email2", "fn2", "ln2", "street2", "city2", "zip2"));
         memberService = new MemberService(memberRepository); //Set up memberService with the mock (H2) database
     }
 
@@ -61,16 +61,21 @@ class MemberServiceH2Test {
 
     @Test
         /* Remember MemberRequest comes from the API layer, and MemberResponse is returned to the API layer
-         * Internally addMember savex a Member entity to the database*/
+         * Internally addMember saves a Member entity to the database*/
     void testAddMember_UserDoesNotExist() {
         //Add @AllArgsConstructor to MemberRequest and @Builder to MemberRequest for this to work
-        //TODO
+        MemberRequest m3 = MemberRequest.builder().username("user3").password("pw3").firstName("fn3").lastName("ln3").build();
+
+       MemberResponse response = memberService.addMember(m3);
+       assertEquals("user3", response.getUsername());
     }
 
     @Test
-    void testAddMember_UserDoesExistThrows() {
-        //This should test that a ResponseStatus exception is thrown with status= 409 (BAD_REQUEST)
-        //TODO
+    void testAddMember_UserDoesExist() {
+        MemberRequest request = new MemberRequest();
+        request.setUsername("user1");
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> memberService.addMember(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
     @Test
@@ -94,17 +99,13 @@ class MemberServiceH2Test {
         assertEquals("zip1", response.getZip());
     }
 
-    @Test
-    void testEditMemberNON_ExistingUsernameThrows() {
-        //This should test that a ResponseStatus exception is thrown with status= 404 (NOT_FOUND)
-        //TODO
-    }
-
-    @Test
-    void testEditMemberChangePrimaryKeyThrows() {
+    void testEditMemberChangePrimaryKey() {
         //Create a MemberRequest from an existing member we can edit
         MemberRequest request = new MemberRequest(m1);
-        //TODO
+        request.setUsername("New Username");
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> memberService.editMember(request, "user1"));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        assertEquals("Cannot change username", ex.getReason());
     }
 
     @Test
@@ -118,7 +119,7 @@ class MemberServiceH2Test {
     void testSetRankingForNoExistingUser() {
     assertThrows(ResponseStatusException.class, () -> memberService.findById("I don't exist"));
 
-    //fordi vi i MemberService har getMemberByUsernamem der thrower en ResponseStatusException, laver vi en assertThrows på den exception og på et brugernavn der ikke findes
+    //fordi vi i MemberService har getMemberByUsername der thrower en ResponseStatusException, laver vi en assertThrows på den exception og på et brugernavn der ikke findes
     }
     @Test
     void testDeleteMemberByUsername() {
