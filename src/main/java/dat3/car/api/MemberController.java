@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("api/members")
+@RequestMapping("/api/members")
 class MemberController {
     MemberService memberService;
 
@@ -54,7 +54,6 @@ class MemberController {
         memberService.deleteMemberByUsername(username);
 
     }
-
 
 }
 
