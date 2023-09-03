@@ -42,7 +42,7 @@ class CarServiceH2Test {
     }
     @Test
     void testDeleteCarById(){
-        carService.deleteCarById(1);
+        carService.deleteCarById(c1.getId());
         assertThrows(ResponseStatusException.class, () -> carService.findCarById(1));
         assertEquals(1, carRepository.count());
     }
