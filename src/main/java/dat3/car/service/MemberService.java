@@ -75,7 +75,7 @@ public class MemberService {
     }
 
 
-    private Member getMemberByUsername(String username){
+    private Member getMemberByUsername(String username){ //det er okay at bruge et member her, da den er private og kun bliver brugt i klassen
         return memberRepository.findById(username).
                 orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Member with this username does not exist"));
     }

@@ -2,13 +2,16 @@ package dat3.car.config;
 
 import dat3.car.entity.Car;
 import dat3.car.entity.Member;
+import dat3.car.entity.Reservation;
 import dat3.car.repository.CarRepository;
 import dat3.car.repository.MemberRepository;
+import dat3.car.repository.ReservationRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +19,33 @@ import java.util.List;
 public class DeveloperData implements ApplicationRunner {
     CarRepository carRepository;
     MemberRepository memberRepository;
+    ReservationRepository reservationRepository;
 
-    public DeveloperData(CarRepository carRepository, MemberRepository memberRepository) {
+    public DeveloperData(CarRepository carRepository, MemberRepository memberRepository, ReservationRepository reservationRepository) {
         this.carRepository = carRepository;
         this.memberRepository = memberRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         createCars();
         createMembers();
+
+        Member member = new Member("Testbrugernavn", "12354", "email@email", "John",
+                "john", "street 1", "city1", "zip1");
+        Car car = new Car("Brand1", "Model1", 100, 50);
+        memberRepository.save(member);
+        carRepository.save(car);
+        LocalDate date1 = LocalDate.now().plusDays(2);
+        LocalDate date2 = LocalDate.now().plusDays(3);
+        Reservation reservation1 = new Reservation(date1,car,member);
+        Reservation reservation2 = new Reservation(date2,car,member);
+        reservationRepository.save(reservation1);
+        reservationRepository.save(reservation2);
+
+        System.out.println(car.getReservations().size());
+        System.out.println(member.getReservations().size());
     }
     public void createCars(){
         List<Car> carList = new ArrayList<>();

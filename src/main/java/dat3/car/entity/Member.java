@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -27,6 +29,8 @@ public class Member extends AdminDetails {
     private boolean approved;
     private int ranking;
 
+    @OneToMany(mappedBy = "member")
+    private List<Reservation> reservations; //er ikke nødvendig for at lave selve reservationen
     public Member(String user, String password, String email, String firstName,
                   String lastName, String street, String city, String zip) {
         this.username = user;
@@ -37,6 +41,12 @@ public class Member extends AdminDetails {
         this.street = street;
         this.city = city;
         this.zip = zip;
+    }
+    public void addReservation(Reservation reservation){
+        if(reservations == null){
+            reservations = new ArrayList<>();
+        }
+        reservations.add(reservation);
     }
 
 }
