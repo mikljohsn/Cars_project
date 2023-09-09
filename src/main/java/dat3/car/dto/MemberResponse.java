@@ -6,6 +6,8 @@ import dat3.car.entity.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -31,20 +33,28 @@ public class MemberResponse {
     Integer ranking; //Brug wrapper-klasser da de godt kan være NULL
     Boolean approved;
 
+    // Reservation list
+    List<ReservationResponse> reservations;
+
     //Convert Member Entity to Member DTO
-    public MemberResponse(Member m, boolean includeAll) {
-        this.username = m.getUsername();
-        this.email = m.getEmail();
-        this.street = m.getStreet();
-        this.firstName = m.getFirstName();
-        this.lastName = m.getLastName();
-        this.city = m.getCity();
-        this.zip = m.getZip();
+    public MemberResponse(Member member, boolean includeAll) {
+        this.username = member.getUsername();
+        this.email = member.getEmail();
+        this.street = member.getStreet();
+        this.firstName = member.getFirstName();
+        this.lastName = member.getLastName();
+        this.city = member.getCity();
+        this.zip = member.getZip();
         if(includeAll){
-            this.created = m.getCreated();
-            this.edited = m.getEdited();
-            this.approved = m.isApproved();
-            this.ranking = m.getRanking();
+            this.created = member.getCreated();
+            this.edited = member.getEdited();
+            this.approved = member.isApproved();
+            this.ranking = member.getRanking();
+        }
+        if (member.getReservations() != null && !member.getReservations().isEmpty()) { //hvis member har en reservation tilføjes de til listen gennem streams
+            this.reservations = member.getReservations().stream()
+                    .map(ReservationResponse::new)
+                    .collect(Collectors.toList());
         }
     }
 }

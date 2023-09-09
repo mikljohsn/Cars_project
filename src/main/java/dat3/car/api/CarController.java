@@ -2,6 +2,7 @@ package dat3.car.api;
 
 import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
+import dat3.car.entity.Car;
 import dat3.car.service.CarService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,9 @@ public class CarController {
     @DeleteMapping("/{id}")
     public void deleteCarById(@PathVariable int id){
         carService.deleteCarById(id);
+    }
+    @GetMapping("/findByBrandAndModel")
+    public List<CarResponse> findCarsByBrandAndModel(@RequestParam String brand, @RequestParam String model) {
+        return carService.findCarsByBrandAndModel(brand, model);
     }
 }

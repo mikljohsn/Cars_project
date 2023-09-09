@@ -31,11 +31,13 @@ public class ReservationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Date incorrect");
         }
         Member member = memberRepository.findById(body.getUsername()).
-                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this username does not exist"));
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this username does not exist."));
         Car car = carRepository.findById(body.getCarId()).
-                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID does not exist"));
-        //what if already reserved?
-        Reservation reservation = new Reservation(body.getDate(), car, member);
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID does not exist."));
+        if(reservationRepository.existsByCar_IdAndRentalDate(body.getCarId(),body.getDate())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reservation for this car and date already exists.");
+        }
+        Reservation reservation = reservationRepository.save(new Reservation(body.getDate(), car, member)); //save så den giver ID i databasen
         return new ReservationResponse(reservation);
     }
 }

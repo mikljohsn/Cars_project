@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.web.server.ResponseStatusException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -18,13 +19,15 @@ class CarServiceH2Test {
     @Autowired
     CarRepository carRepository;
     CarService carService;
-    Car c1, c2;
+    Car c1, c2, c3;
 
     @BeforeEach
     void setUp(){
         c1 = carRepository.save(new Car("Toyota", "Corolla", 128.5, 100));
         c2 = carRepository.save(new Car("Ford", "Mustand", 500.5, 85));
         carService = new CarService(carRepository);
+
+
     }
    @Test
     void testCarsGetId(){
@@ -61,5 +64,12 @@ class CarServiceH2Test {
         carService.editCar(request, request.getId());
         carRepository.flush();
         assertEquals(request.getBrand(),"Suzuki");
+    }
+    @Test
+    void testFindCarsByBrandAndModel(){
+        List<CarResponse> carResponses = carService.findCarsByBrandAndModel("Toyota", "Corolla");
+        assertThat(carResponses).hasSize(1);
+        assertThat(carResponses.get(0).getBrand()).isEqualTo("Toyota");
+        assertThat(carResponses.get(0).getModel()).isEqualTo("Corolla");
     }
 }

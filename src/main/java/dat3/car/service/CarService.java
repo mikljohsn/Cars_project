@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CarService {
     CarRepository carRepository;
@@ -52,5 +54,9 @@ public class CarService {
         Car car = carRepository.findById(id).
                 orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID does not exist"));
         carRepository.delete(car);
+    }
+    public List<CarResponse> findCarsByBrandAndModel(String brand, String model) {
+        List<Car> cars = carRepository.findCarsByBrandAndModel(brand, model);
+        return cars.stream().map(car -> new CarResponse(car, true)).collect(Collectors.toList());
     }
 }
