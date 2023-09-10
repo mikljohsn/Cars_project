@@ -64,7 +64,7 @@ class MemberServiceH2Test {
          * Internally addMember saves a Member entity to the database*/
     void testAddMember_UserDoesNotExist() {
         //Add @AllArgsConstructor to MemberRequest and @Builder to MemberRequest for this to work
-        MemberRequest m3 = MemberRequest.builder().username("user3").password("pw3").firstName("fn3").lastName("ln3").build();
+        MemberRequest m3 = MemberRequest.builder().username("user3").password("pw3").firstName("fn3").lastName("ln3").email("test@Test").build();
 
        MemberResponse response = memberService.addMember(m3);
        assertEquals("user3", response.getUsername());
