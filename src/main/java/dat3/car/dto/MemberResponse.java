@@ -33,6 +33,7 @@ public class MemberResponse {
     Integer ranking; //Brug wrapper-klasser da de godt kan være NULL
     Boolean approved;
 
+
     // Reservation list
     List<ReservationResponse> reservations;
 
@@ -51,9 +52,16 @@ public class MemberResponse {
             this.approved = member.isApproved();
             this.ranking = member.getRanking();
         }
-        if (member.getReservations() != null && !member.getReservations().isEmpty()) { //hvis member har en reservation tilføjes de til listen gennem streams
+     /*   if (member.getReservations() != null && !member.getReservations().isEmpty()) { //hvis member har en reservation tilføjes de til listen gennem streams
             this.reservations = member.getReservations().stream()
                     .map(ReservationResponse::new)
+                    .collect(Collectors.toList()); metode til at tilføje en liste af reservationer gennem constructoren
+        }*/
+    }
+    public MemberResponse(Member member, boolean includeAll, boolean includeReservations){ //ny constructor der peger på den gamle, og bruger et flag til at få listen med
+        this(member, false);
+        if(includeReservations){
+            this.reservations = member.getReservations().stream().map(response -> new ReservationResponse(response))
                     .collect(Collectors.toList());
         }
     }

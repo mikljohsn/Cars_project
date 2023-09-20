@@ -30,6 +30,9 @@ public class MemberService {
         return response;*/
         return members.stream().map(((member) -> new MemberResponse(member, includeAll))).toList(); //1 line ved brug af streams,
         //hvor en member mappes til en memberresponse med member som parameter og vores includeAll flag.
+    }    public List<MemberResponse> getMembersWithReservations(boolean includeAll, boolean includeReservations) { //ny get members til at finde members og deres reservation. Kald den!
+        List<Member> members = memberRepository.findAll();
+        return members.stream().map(((member) -> new MemberResponse(member, includeAll, includeReservations))).toList();
     }
 
     public MemberResponse addMember(MemberRequest body) {

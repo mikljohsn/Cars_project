@@ -55,7 +55,7 @@ class CarServiceH2Test {
     }
     @Test
     void testFindCarById_carDoesNotExist(){
-        assertThrows(ResponseStatusException.class, () -> carService.findCarById(10));
+        assertThrows(ResponseStatusException.class, () -> carService.findCarById(1000));
     }
     @Test
     void testEditCar(){
