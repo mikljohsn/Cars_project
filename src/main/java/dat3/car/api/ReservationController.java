@@ -5,10 +5,9 @@ import dat3.car.dto.ReservationResponse;
 import dat3.car.entity.Reservation;
 import dat3.car.service.ReservationService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -22,5 +21,11 @@ public class ReservationController {
     @PostMapping
     ReservationResponse makeReservation(@RequestBody ReservationRequest body){
         return reservationService.reserveCar(body);
+    }
+
+    //ADMIN
+    @GetMapping("/{username}")
+    public List<ReservationResponse> getReservationsForUser(@PathVariable String username){
+        return reservationService.getReservationsForUser(username);
     }
 }
