@@ -66,7 +66,7 @@ public class SecurityConfig {
             .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/api/user-with-role")).permitAll() //Clients can create a user for themself
 
             //This is for demo purposes only, and should be removed for a real system
-            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/api/demo/anonymous")).permitAll()
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/api/cars")).permitAll()
 
             //Allow index.html and everything else on root level. So make sure to put ALL your endpoints under /api
             .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/*")).permitAll()
@@ -75,13 +75,15 @@ public class SecurityConfig {
 
             //Use this to completely disable security (Will not work if endpoints has been marked with @PreAuthorize)
             //.requestMatchers("/", "/**").permitAll());
-
-            .requestMatchers(mvcMatcherBuilder.pattern("/**")).permitAll());
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/api/cars/admin")).hasAuthority("ADMIN")
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"/api/reservations")).hasAuthority("USER")
+            //.requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/api/resevervations/reservations-for-authenticated")).hasAuthority("USER")
+            //.requestMatchers(mvcMatcherBuilder.pattern("/**")).permitAll());
 
             //This is for demo purposes only, and should be removed for a real system
             //.requestMatchers(HttpMethod.GET, "/api/demouser/user-only").hasAuthority("USER")
             // .requestMatchers(HttpMethod.GET, "/api/demouser/admin-only").hasAuthority("ADMIN")
-            //.anyRequest().authenticated());
+            .anyRequest().authenticated());
 
     return http.build();
   }

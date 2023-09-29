@@ -25,11 +25,11 @@ public class CarResponse {
     LocalDateTime edited;
 
     public CarResponse(Car c, boolean includeAll){
+        this.id = c.getId();
         this.brand = c.getBrand();
         this.model = c.getModel();
         this.pricePrDay = c.getPricePrDay();
         if (includeAll){
-            this.id = c.getId();
             this.bestDiscount = c.getBestDiscount();
             this.created = c.getCreated();
             this.edited = c.getEdited();

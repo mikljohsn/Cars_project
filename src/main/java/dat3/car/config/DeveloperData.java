@@ -125,7 +125,9 @@ public class DeveloperData implements ApplicationRunner {
         memberList.add(new Member("davidBrown", "brownpass", "david.brown@example.com", "David", "Brown", "222 Pine St", "Miami", "33101"));
         memberList.add(new Member("sarahC", "sarahpass", "sarah.connor@example.com", "Sarah", "Connor", "555 Elm St", "Los Angeles", "90002"));
         memberList.add(new Member("robertP", "robertpass", "robert.parker@example.com", "Robert", "Parker", "777 Oak St", "Chicago", "60602"));
-
+        Member testing = new Member("Jan", "1234", "ehehe", "john", "johnny", "123", "123", "123");
+        testing.addRole(Role.USER);
+        memberList.add(testing);
         memberRepository.saveAll(memberList);
     }
     @Autowired

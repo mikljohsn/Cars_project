@@ -20,6 +20,10 @@ public class CarController {
     }
     @GetMapping
     public List<CarResponse> getCars(){
+        return carService.getCars(false);
+    }
+    @GetMapping("/admin")
+    public List<CarResponse> getCarsAll(){
         return carService.getCars(true);
     }
     @GetMapping(path = "{id}")
